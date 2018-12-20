@@ -1,4 +1,2 @@
 # alien_invasion
-space button - shoot
-
-arrows buttons - move 
+My First project on python 
