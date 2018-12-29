@@ -26,7 +26,7 @@ def run_game():
 		gf.check_events(ai_settings, screen, ship, bullets)
 		ship.update()
 		gf.update_bullets(bullets)
-		gf.update_aliens(aliens)
+		gf.update_aliens(ai_settings, aliens)
 		gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 		rel_y = bcgd_y % bcgd.get_rect().height
 		screen.blit(bcgd, (0, rel_y - bcgd.get_rect().height))
