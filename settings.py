@@ -8,9 +8,9 @@ class Settings():
 		self.screen_height = 800
 		self.bg_color = ()
 		self.ship_speed_factor = 1.7
-		self.alien_speed_factor = 1.7
+		self.alien_speed_factor = 2.7
 		# Параметры пули
-		self.bullet_speed_factor = 3
+		self.bullet_speed_factor = 4
 		self.bullet_width = 5
 		self.bullet_height = 25
 		self.bullet_color = 250, 0, 150
