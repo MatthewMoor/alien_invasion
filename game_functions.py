@@ -35,30 +35,52 @@ def check_keyup_events(event, ship):
 		ship.moving_down = False	
 
 
-def check_events(ai_settings, screen, ship, bullets):
-	"""Обрабатывает нажатия клавиш и события мыши."""
+def check_events(ai_settings, screen, stats, play_button, ship, aliens,  bullets):
+	""" Обрабатывает нажатия клавиш и события мыши."""
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			sys.exit
+		elif event.type == pygame.MOUSEBUTTONDOWN:
+			mouse_x, mouse_y = pygame.mouse.get_pos()
+			check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y)
 		elif event.type == pygame.KEYDOWN:
 			check_keydown_events(event, ai_settings, screen, ship, bullets)
 		elif event.type == pygame.KEYUP:
 			check_keyup_events(event, ship)	
 
 
-def update_screen(ai_settings, screen, ship, aliens, bullets):
-	"""Обновляет изображения на экране и отображает новые кадры"""
+def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
+	""" Запускает новую игру при нажатии кнопки Play."""
+	if play_button.rect.collidepoint(mouse_x, mouse_y):
+		# Сброс игровой статистики
+		stats.reset_stats()
+		stats.game_active = True
+
+		# Очистка списков пришельцев и пуль.
+		aliens.empty()
+		bullets.empty()
+
+		# Создание новго флота и размещение кораблей в центре.
+		create_fleet(ai_settings, screen, ship, aliens)
+		ship.center_ship()
+
+
+def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):
+	""" Обновляет изображения на экране и отображает новые кадры"""
 	# screen.fill(ai_settings.bg_color)
 	for bullet in bullets.sprites():
 		bullet.draw_bullet()
 	ship.blitme()
 	aliens.draw(screen)
+	# Button отображается в том случае если кнопка не активна
+	if not stats.game_active:
+		play_button.draw_button()
 	
 	pygame.display.flip()
 
 
 def update_bullets(ai_settings, screen, ship, aliens, bullets):
-	"""Обновление позиции пуль и уничтожение старых."""
+	""" Обновление позиции пуль и уничтожение старых."""
 	bullets.update()
 	# Delete bullet outside
 	for bullet in bullets.copy():
@@ -75,6 +97,7 @@ def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets):
 		# Создание нового флота
 		bullets.empty()
 		create_fleet(ai_settings, screen, ship, aliens)
+
 
 def fire_bullet(ai_settings, screen, ship, bullets):
 	"""Выпускает пулю, если макс еще не достигнут."""
