@@ -5,7 +5,7 @@ from settings import Settings
 class Ship():
 	
 	def __init__(self, screen):
-		"""Инициализирует корабль и задает его начальную позицию. """
+		""" Инициализирует корабль и задает его начальную позицию. """
 		self.screen = screen
 		self.ai_settings = Settings()
 		
@@ -26,7 +26,7 @@ class Ship():
 		self.center_y = float(self.rect.centery)
 		
 	def update(self):
-		"""Обновляет позиции корабля с учетом флага"""
+		""" Обновляет позиции корабля с учетом флага"""
 		if self.moving_right and self.rect.right < self.screen_rect.right:
 			self.center += self.ai_settings.ship_speed_factor
 		if self.moving_left and self.rect.left > 0:
@@ -40,8 +40,8 @@ class Ship():
 		self.rect.centery = self.center_y
 		
 	def blitme(self):
-		"""Рисует корабль текущей позиции.  """
+		""" Рисует корабль текущей позиции.  """
 		self.screen.blit(self.image, self.rect)
 
 	def center_ship(self):
-		self.center = self.screen_rect.centerx
+		self.center = self.rect.bottom
